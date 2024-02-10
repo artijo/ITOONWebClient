@@ -1,11 +1,13 @@
 import Layout from "../Layout"
 import { useState } from "react"
+import axios from "axios";
 export default function UploadCartoon() {
     const [file, setFile] = useState<File | undefined>();
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [type, setType] = useState<string>('');
     const [subType, setSubType] = useState<string>('');
+    const [episode, setEpisode] = useState<number>(0);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -15,6 +17,22 @@ export default function UploadCartoon() {
     const handleSubmit = (e: any) => {
         e.preventDefault();
         console.log(file, title, description, type, subType);
+        const formData = new FormData();
+        formData.append('thumbnail', file as Blob);
+        formData.append('name', title);
+        formData.append('description', description);
+        formData.append('type', type);
+        formData.append('subType', subType);
+        formData.append('episode', episode.toString());
+        axios.post('http://localhost:3000/newcartoon', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        })
     }
     return (
         <Layout title="อัปโหลดการ์ตูน">
@@ -35,6 +53,10 @@ export default function UploadCartoon() {
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">เรื่องย่อ</label>
                         <textarea className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" onChange={(e)=>setDescription(e.target.value)}></textarea>
+                    </div>
+                    <div className="mb-2">
+                        <label className="block text-lg font-medium leading-6 text-gray-900">จำนวนตอน</label>
+                        <input type="number" className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" onChange={(e)=>setEpisode(Number(e.target.value))}/>
                     </div>
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">ประเภท</label>

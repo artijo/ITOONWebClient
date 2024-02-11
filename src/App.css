@@ -1,3 +1,7 @@
+body {
+  font-family: 'line_seed', sans-serif;
+}
+
 .upload-btn-wrapper {
     position: relative;
     overflow: hidden;

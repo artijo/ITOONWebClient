@@ -91,7 +91,10 @@ export default function UploadEpisode() {
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">รูปปก</label>
                         {thumbnail && <img src={URL.createObjectURL(thumbnail)} className="w-1/4" />}
-                        <input onChange={(e)=>handlethumbnail(e)} type="file" name="cover" accept="image/*" className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                        <input onChange={(e)=>handlethumbnail(e)} type="file" name="cover" accept="image/*" className="file:mr-4 file:py-2 file:px-4
+      file:rounded-full file:border-0
+      file:text-sm file:font-semibold
+      file:bg-red file:text-white" />
                     </div>
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">ชื่อตอน</label>
@@ -119,17 +122,18 @@ export default function UploadEpisode() {
                             <input onChange={handdleimages} type="file" name="images" accept="image/*" multiple/>
                         </div>
                     )}
-                    {images && <div>
+                    {images && <div className="grid grid-cols-2">
                         {Array.from(images).map((image, index) => {
                             return (
-                                <div key={index}><img  src={URL.createObjectURL(image)} className="w-1/4" /><button onClick={(e) => handleremoveimageindex(e, index)}>ลบ</button></div>
+                                <div className="w-full mx-auto" key={index}><img  src={URL.createObjectURL(image)} className="w-1/2" /><button onClick={(e) => handleremoveimageindex(e, index)}>ลบ</button></div>
                             )
                         })}
                     <div className="upload-btn-wrapper">
                         <button className="btn">อัปโหลดเพิ่มเติม</button>
                         <input onChange={(e)=>handdleaddimages(e)} type="file" name="images" accept="image/*" multiple/>
                     </div>
-                    </div>}
+                    </div>
+                    }
                     <div className="mb-2">
                         <button onClick={haddlesubmit} className="bg-red text-white mt-5 p-2 block mx-auto rounded-md">อัปโหลดตอน</button>
                     </div>

@@ -2,13 +2,14 @@ import Layout from "../Layout"
 import { useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import config from "../config";
 export default function Login() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        axios.post('http://localhost:3000/loginweb', {
+        axios.post(`${config.BASE_URL}/loginweb`, {
             email,
             password
         }).then(res => {

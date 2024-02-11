@@ -2,6 +2,7 @@ import Layout from "../Layout"
 import { useState, useEffect } from "react"
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import config from "../config";
 export default function UploadEpisode() {
     const [thumbnail, setThumbnaiil] = useState<File | undefined>();
     const [title, setTitle] = useState<string>('');
@@ -58,7 +59,7 @@ export default function UploadEpisode() {
                 formData.append('images', images[i]);
             }
         }
-        axios.post('http://localhost:3000/newEpisode', formData, {
+        axios.post(`${config.BASE_URL}/newEpisode`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -72,7 +73,7 @@ export default function UploadEpisode() {
         if (!cookies.token) {
             document.location.href = '/login';
         }
-        axios.post('http://localhost:3000/authcheckweb', {}, {
+        axios.post(`${config.BASE_URL}/authcheckweb`, {}, {
             headers: {
                 'Authorization': 'Bearer ' + cookies.token
             }
@@ -90,7 +91,7 @@ export default function UploadEpisode() {
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">รูปปก</label>
                         {thumbnail && <img src={URL.createObjectURL(thumbnail)} className="w-1/4" />}
-                        <input onChange={(e)=>handlethumbnail(e)} type="file" name="cover" className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                        <input onChange={(e)=>handlethumbnail(e)} type="file" name="cover" accept="image/*" className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">ชื่อตอน</label>
@@ -115,18 +116,18 @@ export default function UploadEpisode() {
                     ) : (
                         <div className="upload-btn-wrapper">
                             <button className="btn">อัปโหลดรูป</button>
-                            <input onChange={handdleimages} type="file" name="images" multiple/>
+                            <input onChange={handdleimages} type="file" name="images" accept="image/*" multiple/>
                         </div>
                     )}
                     {images && <div>
                         {Array.from(images).map((image, index) => {
                             return (
-                                <><img key={index} src={URL.createObjectURL(image)} className="w-1/4" /><button onClick={(e) => handleremoveimageindex(e, index)}>ลบ</button></>
+                                <div key={index}><img  src={URL.createObjectURL(image)} className="w-1/4" /><button onClick={(e) => handleremoveimageindex(e, index)}>ลบ</button></div>
                             )
                         })}
                     <div className="upload-btn-wrapper">
                         <button className="btn">อัปโหลดเพิ่มเติม</button>
-                        <input onChange={(e)=>handdleaddimages(e)} type="file" name="images" multiple/>
+                        <input onChange={(e)=>handdleaddimages(e)} type="file" name="images" accept="image/*" multiple/>
                     </div>
                     </div>}
                     <div className="mb-2">

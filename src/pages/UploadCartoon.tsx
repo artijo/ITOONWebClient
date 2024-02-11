@@ -2,6 +2,7 @@ import Layout from "../Layout"
 import { useState, useEffect } from "react"
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import config from "../config";
 export default function UploadCartoon() {
     const [file, setFile] = useState<File | undefined>();
     const [title, setTitle] = useState<string>('');
@@ -26,7 +27,7 @@ export default function UploadCartoon() {
         formData.append('type', type);
         formData.append('subType', subType);
         formData.append('episode', episode.toString());
-        axios.post('http://localhost:3000/newcartoon', formData, {
+        axios.post(`${config.BASE_URL}/newcartoon`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': 'Bearer ' + cookies.token
@@ -41,7 +42,7 @@ export default function UploadCartoon() {
         if (!cookies.token) {
             document.location.href = '/login';
         }
-        axios.post('http://localhost:3000/authcheckweb', {}, {
+        axios.post(`${config.BASE_URL}/authcheckweb`, {}, {
             headers: {
                 'Authorization': 'Bearer ' + cookies.token
             }
@@ -62,7 +63,7 @@ export default function UploadCartoon() {
                         <input className="file:mr-4 file:py-2 file:px-4
       file:rounded-full file:border-0
       file:text-sm file:font-semibold
-      file:bg-red file:text-white" type="file" onChange={handleFileChange} />
+      file:bg-red file:text-white" type="file" onChange={handleFileChange} accept="image/*" />
                     </div>
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">ชื่อการ์ตูน</label>

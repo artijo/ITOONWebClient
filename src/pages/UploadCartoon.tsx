@@ -1,6 +1,7 @@
 import Layout from "../Layout"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import axios from "axios";
+import { useCookies } from "react-cookie";
 export default function UploadCartoon() {
     const [file, setFile] = useState<File | undefined>();
     const [title, setTitle] = useState<string>('');
@@ -8,6 +9,7 @@ export default function UploadCartoon() {
     const [type, setType] = useState<string>('');
     const [subType, setSubType] = useState<string>('');
     const [episode, setEpisode] = useState<number>(0);
+    const [cookies] = useCookies(['token']);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -26,7 +28,8 @@ export default function UploadCartoon() {
         formData.append('episode', episode.toString());
         axios.post('http://localhost:3000/newcartoon', formData, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' + cookies.token
             }
         }).then(res => {
             console.log(res);
@@ -34,6 +37,21 @@ export default function UploadCartoon() {
             console.log(err);
         })
     }
+    useEffect(() => {
+        if (!cookies.token) {
+            document.location.href = '/login';
+        }
+        axios.post('http://localhost:3000/authcheckweb', {}, {
+            headers: {
+                'Authorization': 'Bearer ' + cookies.token
+            }
+        }).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+            document.location.href = '/login';
+        })
+    }, [cookies.token])
     return (
         <Layout title="อัปโหลดการ์ตูน">
             <div className="pt-3">

@@ -12,6 +12,20 @@ export default function UploadCartoon() {
     const [episode, setEpisode] = useState<number>(0);
     const [cookies] = useCookies(['token']);
 
+    // interface Genre {
+    //     id: number;
+    //     name: string;
+
+    // }
+
+    type Genre = {
+        id: number,
+        name: string
+    }
+
+
+    const [genres, setGenres] = useState<Genre[]>([]);
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             setFile(e.target.files[0]);
@@ -38,6 +52,12 @@ export default function UploadCartoon() {
             console.log(err);
         })
     }
+
+    const initGenres = async () => {
+        const res = await axios.get(`${config.BASE_URL}/allgenre`);
+        setGenres(res.data);
+    }
+
     useEffect(() => {
         if (!cookies.token) {
             document.location.href = '/login';
@@ -52,6 +72,9 @@ export default function UploadCartoon() {
             console.log(err);
             document.location.href = '/login';
         })
+
+        initGenres();
+
     }, [cookies.token])
     return (
         <Layout title="อัปโหลดการ์ตูน">
@@ -80,14 +103,12 @@ export default function UploadCartoon() {
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">ประเภท</label>
                         <select className="rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" onChange={(e)=>setType(e.target.value)}>
-                            <option value="action">Action</option>
-                            <option value="comedy">Comedy</option>
-                            <option value="drama">Drama</option>
-                            <option value="fantasy">Fantasy</option>
-                            <option value="horror">Horror</option>
-                            <option value="mystery">Mystery</option>
-                            <option value="romance">Romance</option>
-                            <option value="thriller">Thriller</option>
+                           <option value="">เลือกประเภท</option>
+                            {genres.map((genre, index) => (
+                                 <option key={index} value={genre.id}>{genre.name}</option>
+                            )
+                            )}
+                           
                         </select>
                         <input className="rounded-md border-0 py-1.5 text-gray-900 ml-2 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" type="text" placeholder="ประเภทรอง" onChange={(e)=>setSubType(e.target.value)}/>
                     </div>

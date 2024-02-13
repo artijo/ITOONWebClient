@@ -3,13 +3,13 @@ import { useState, useEffect } from "react"
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import config from "../config";
+import { useParams } from "react-router-dom";
 export default function UploadEpisode() {
     const [thumbnail, setThumbnaiil] = useState<File | undefined>();
     const [title, setTitle] = useState<string>('');
-    const [description, setDescription] = useState<string>('');
-    const [cartoonId, setCartoonId] = useState<string>('');
     const [images, setImages] = useState<FileList | null>();
     const [cookies] = useCookies(['token']);
+    const { id } = useParams();
 
     const handlethumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -47,13 +47,11 @@ export default function UploadEpisode() {
 
     const haddlesubmit = (e: any) => {
         e.preventDefault();
-        console.log(thumbnail, title, description, cartoonId, images);
         const formData = new FormData();
         formData.append('cover', thumbnail as Blob);
         formData.append('title', title);
-        formData.append('description', description);
-        formData.append('cartoonId', cartoonId);
         formData.append('episode', '0');
+        formData.append('cartoonid', id as string);
         if (images) {
             for (let i = 0; i < images.length; i++) {
                 formData.append('images', images[i]);
@@ -61,7 +59,8 @@ export default function UploadEpisode() {
         }
         axios.post(`${config.BASE_URL}/newEpisode`, formData, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' + cookies.token
             }
         }).then(res => {
             console.log(res);
@@ -98,21 +97,7 @@ export default function UploadEpisode() {
                     </div>
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">ชื่อตอน</label>
-                        <input type="text" className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                    </div>
-                    <div className="mb-2">
-                        <label className="block text-lg font-medium leading-6 text-gray-900">คำอธิบาย</label>
-                        <textarea className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
-                    </div>
-                    <div className="mb-2">
-                        <label className="block text-lg font-medium leading-6 text-gray-900">เลือกการ์ตูน</label>
-                        <select className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                            <option value="1">การ์ตูน 1</option>
-                            <option value="2">การ์ตูน 2</option>
-                            <option value="3">
-                                การ์ตูน 3
-                            </option>
-                        </select>
+                        <input onChange={(e)=>setTitle(e.target.value)} type="text" className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                     {images ? (
                         <div></div>

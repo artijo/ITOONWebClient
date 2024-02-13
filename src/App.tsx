@@ -11,7 +11,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/upload/cartoon" element={<UploadCartoon />} />
-        <Route path="/upload/episode" element={<UploadEpisode />} />
+        <Route path="/upload/episode/:id" element={<UploadEpisode />} />
       </Routes>
   )
 }

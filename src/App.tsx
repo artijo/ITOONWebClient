@@ -3,6 +3,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import UploadCartoon from './pages/UploadCartoon'
 import UploadEpisode from './pages/UploadEpisode'
+import Error from './pages/Error'
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/upload/cartoon" element={<UploadCartoon />} />
         <Route path="/upload/episode/:id" element={<UploadEpisode />} />
+        <Route path="/error" element={<Error/>}/>
       </Routes>
   )
 }

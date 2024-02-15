@@ -10,7 +10,7 @@ export default function UploadCartoon() {
     const [type, setType] = useState<string>('');
     const [subType, setSubType] = useState<string>('');
     const [episode, setEpisode] = useState<number>(0);
-    const [cookies] = useCookies(['token']);
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
     // interface Genre {
     //     id: number;
@@ -70,7 +70,9 @@ export default function UploadCartoon() {
             console.log(res);
         }).catch(err => {
             console.log(err);
-            document.location.href = '/login';
+            if(err.response.status === 401) {
+                document.location.href = '/error';
+            }
         })
 
         initGenres();

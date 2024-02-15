@@ -1,5 +1,5 @@
 import Layout from "../Layout"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import config from "../config";
@@ -20,7 +20,12 @@ export default function Login() {
             console.log(err);
         })
     }
-    if(cookies.token)document.location.href = '/upload/cartoon';
+    useEffect(() => {
+        if (cookies.token) {
+            document.location.href = '/upload/cartoon';
+        }
+    }, [cookies.token])
+
     return (
         <Layout title="เข้าสู่ระบบสำหรับ Creator">
             <div className="mt-5">

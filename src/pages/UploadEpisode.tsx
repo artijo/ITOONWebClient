@@ -66,6 +66,9 @@ export default function UploadEpisode() {
             console.log(res);
         }).catch(err => {
             console.log(err);
+            if (err.response.status === 401) {
+                document.location.href = '/error';
+            }
         })
     }
     useEffect(() => {

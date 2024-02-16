@@ -5,6 +5,7 @@ import UploadCartoon from './pages/UploadCartoon'
 import UploadEpisode from './pages/UploadEpisode'
 import Error from './pages/Error'
 import Profile from './pages/Profile'
+import Coi from './pages/CoinTransaction'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/upload/episode/:id" element={<UploadEpisode />} />
         <Route path="/error" element={<Error/>}/>
         <Route path="/profile" element={<Profile/>} />
+        <Route path="/coin-transaction" element={<Coi/>} />
       </Routes>
   )
 }

@@ -7,9 +7,9 @@ export default function Error() {
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     useEffect(() => {
         document.title = "Error"
-        if (cookies.token) {
-            removeCookie('token');
-        }
+        // if (cookies.token) {
+        //     removeCookie('token');
+        // }
     }, [])
     return (
         <Layout title="Error">

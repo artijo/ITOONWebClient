@@ -48,6 +48,7 @@ export default function UploadCartoon() {
             }
         }).then(res => {
             console.log(res);
+            document.location.href = '/success';
         }).catch(err => {
             console.log(err);
         })

@@ -88,9 +88,11 @@ export default function UploadEpisode() {
             document.location.href = '/login';
         })
         axios.get(`${config.BASE_URL}/getlastep/${id}`).then(res => {
-            console.log(res);
-            if(res.data.episodeNumber === null) setEpisodes(1);
-            else setEpisodes(res.data.episodeNumber + 1);
+            if(res.data == null) {
+                setEpisodes(1);
+                return;
+            }
+            setEpisodes(res.data.episodeNumber + 1);
             
         }).catch(err => {
             console.log(err);

@@ -51,7 +51,7 @@ export default function UploadEpisode() {
         const formData = new FormData();
         formData.append('cover', thumbnail as Blob);
         formData.append('title', title);
-        formData.append('episode', episodes?.toString() ?? '');
+        formData.append('episode', episodes?.toString() ?? '1');
         formData.append('cartoonid', id as string);
         if (images) {
             for (let i = 0; i < images.length; i++) {
@@ -116,7 +116,7 @@ export default function UploadEpisode() {
                     </div>
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">ตอนที่</label>
-                        <input type="text" value={episodes?.toString() ?? ''} readOnly className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                        <input type="text" value={episodes?.toString() ?? '1'} readOnly className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                     </div>
                     {images ? (
                         <div></div>

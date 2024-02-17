@@ -26,6 +26,10 @@ export default function Home() {
         <Layout title="หน้าแรก">
             <div className="mt-5">
                 <h1 className="text-2xl font-bold text-gray-900">หน้าแรก</h1>
+                <p>สำหรับ Crator</p>
+                <button onClick={()=>document.location.href = '/upload-cartoon'} className="bg-red text-white mt-5 p-2 block mx-auto rounded-md">อัปโหลดการ์ตูน</button>
+                <p>สำหรับ User</p>
+                <button onClick={()=>document.location.href = '/coin-transaction'} className="bg-red text-white mt-5 p-2 block mx-auto rounded-md">เติมเหรียญ</button>
             </div>
         </Layout>
     )

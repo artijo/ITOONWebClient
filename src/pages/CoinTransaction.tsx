@@ -59,7 +59,7 @@ export default function Cointransaction() {
         }).catch(err => {
             console.log(err);
             if(err.response.status === 401) {
-                document.location.href = '/error';
+                document.location.href = '/login';
             }
         })
 

@@ -15,14 +15,14 @@ export default function Login() {
         }).then(res => {
             console.log(res);
             setCookie('token', res.data.token, { maxAge: 3600*24*7 });
-            document.location.href = '/upload/cartoon';
+            document.location.href = '/';
         }).catch(err => {
             console.log(err);
         })
     }
     useEffect(() => {
         if (cookies.token) {
-            document.location.href = '/upload/cartoon';
+            document.location.href = '/';
         }
     }, [cookies.token])
 

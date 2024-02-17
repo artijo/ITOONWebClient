@@ -10,6 +10,7 @@ export default function UploadEpisode() {
     const [images, setImages] = useState<FileList | null>();
     const [cookies] = useCookies(['token']);
     const { id } = useParams();
+    const [episodes, setEpisodes] = useState<Number>();
 
     const handlethumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -50,7 +51,7 @@ export default function UploadEpisode() {
         const formData = new FormData();
         formData.append('cover', thumbnail as Blob);
         formData.append('title', title);
-        formData.append('episode', '0');
+        formData.append('episode', episodes?.toString() ?? '');
         formData.append('cartoonid', id as string);
         if (images) {
             for (let i = 0; i < images.length; i++) {
@@ -86,6 +87,12 @@ export default function UploadEpisode() {
             console.log(err);
             document.location.href = '/login';
         })
+        axios.get(`${config.BASE_URL}/getlastep/${id}`).then(res => {
+            console.log(res);
+            setEpisodes(res.data.episodeNumber + 1);
+        }).catch(err => {
+            console.log(err);
+        })
     }, [cookies.token])
     return (
         <Layout title="อัปโหลดตอน">
@@ -102,6 +109,10 @@ export default function UploadEpisode() {
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">ชื่อตอน</label>
                         <input onChange={(e)=>setTitle(e.target.value)} type="text" className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    </div>
+                    <div className="mb-2">
+                        <label className="block text-lg font-medium leading-6 text-gray-900">ตอนที่</label>
+                        <input type="text" value={episodes?.toString() ?? ''} readOnly className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                     </div>
                     {images ? (
                         <div></div>

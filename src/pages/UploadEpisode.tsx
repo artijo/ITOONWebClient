@@ -114,7 +114,10 @@ export default function UploadEpisode() {
                     {images && <div className="grid grid-cols-2">
                         {Array.from(images).map((image, index) => {
                             return (
+                                <>
                                 <div className="w-full mx-auto" key={index}><img  src={URL.createObjectURL(image)} className="w-1/2" /><button onClick={(e) => handleremoveimageindex(e, index)}>ลบ</button></div>
+                                <p>{image.name}</p>
+                                </>
                             )
                         })}
                     <div className="upload-btn-wrapper">

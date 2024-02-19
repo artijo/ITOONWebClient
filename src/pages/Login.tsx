@@ -7,7 +7,6 @@ import { useLocation } from "react-router-dom";
 export default function Login() {
     const location = useLocation();
     const { search } = location;
-    console.log(search);
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -19,7 +18,7 @@ export default function Login() {
         }).then(res => {
             console.log(res);
             setCookie('token', res.data.token, { maxAge: 3600*24*7 });
-            document.location.href = '/';
+            document.location.href = search.replace('?', '').split('=')[1];;
         }).catch(err => {
             console.log(err);
         })

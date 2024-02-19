@@ -9,7 +9,7 @@ export default function UploadEpisode() {
     const [title, setTitle] = useState<string>('');
     const [images, setImages] = useState<FileList | null>();
     const [cookies] = useCookies(['token']);
-    const { id } = useParams();
+    const { id, episode } = useParams();
     const [episodes, setEpisodes] = useState<Number>();
 
     const handlethumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,20 +58,34 @@ export default function UploadEpisode() {
                 formData.append('images', images[i]);
             }
         }
-        axios.post(`${config.BASE_URL}/newEpisode`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': 'Bearer ' + cookies.token
-            }
-        }).then(res => {
-            console.log(res);
-            document.location.href = '/success';
-        }).catch(err => {
-            console.log(err);
-            if (err.response.status === 401) {
-                document.location.href = '/error';
-            }
-        })
+        if(episode) {
+            axios.put(`${config.BASE_URL}/updateEpisode/${episode}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Bearer ' + cookies.token
+                }
+            }).then(res => {
+                console.log(res);
+                document.location.href = '/success';
+            }).catch(err => {
+                console.log(err);
+            })
+        }else{
+            axios.post(`${config.BASE_URL}/newEpisode`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Bearer ' + cookies.token
+                }
+            }).then(res => {
+                console.log(res);
+                document.location.href = '/success';
+            }).catch(err => {
+                console.log(err);
+                if (err.response.status === 401) {
+                    document.location.href = '/error';
+                }
+            })
+        }
     }
     useEffect(() => {
         if (!cookies.token) {
@@ -98,6 +112,41 @@ export default function UploadEpisode() {
             console.log(err);
         })
     }, [cookies.token])
+
+    useEffect(() => {
+        if (episode) {
+            axios.get(`${config.BASE_URL}/getepbyid/${episode}`, {
+            }).then(res => {
+                setTitle(res.data.name);
+                setEpisodes(res.data.episodeNumber);
+                const imageUrl = config.BASE_URL + '/' + res.data.thumbnail;
+                const filetype = imageUrl.split('.').pop();
+                fetch(imageUrl).then(res => res.blob()).then(blob => {
+                    const file = new File([blob], `thumbnail.${filetype}`, { type: `image/${filetype}` });
+                    setThumbnaiil(file);
+                });
+                const fetchImagesAndSetFilelist = async () => {
+                    const res = await axios.get(`${config.BASE_URL}/getImageEp/${episode}`);
+                    const images = res.data;
+                    const filelist = new DataTransfer();
+                    for (let i = 0; i < images.length; i++) {
+                        const imageUrl = config.BASE_URL + '/' + images[i].url;
+                        const filetype = imageUrl.split('.').pop();
+                        const response = await fetch(imageUrl);
+                        const blob = await response.blob();
+                        const file = new File([blob], `${images[i].name}.${filetype}`, { type: `image/${filetype}` });
+                        filelist.items.add(file);
+                    }
+                    setImages(filelist.files);
+                }
+                fetchImagesAndSetFilelist();
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+    }
+    , [episode])
+
     return (
         <Layout title="อัปโหลดตอน">
             <div className="pt-3">
@@ -112,7 +161,7 @@ export default function UploadEpisode() {
                     </div>
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">ชื่อตอน</label>
-                        <input onChange={(e)=>setTitle(e.target.value)} type="text" className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                        <input value={title} onChange={(e)=>setTitle(e.target.value)} type="text" className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">ตอนที่</label>

@@ -104,11 +104,12 @@ export default function UploadCartoon() {
                 setType(res.data.genreId.toString());
                 setEpisode(res.data.totalEpisodes);
                 const imageUrl = config.BASE_URL + '/' + res.data.thumbnail;
+                const filetype = imageUrl.split('.').pop();
                 const fetchImageAndSetFile = async () => {
                     try {
                       const response = await fetch(imageUrl);
                       const blob = await response.blob();
-                      const file = new File([blob], 'filename.jpg', { type: 'image/*' });
+                      const file = new File([blob], title+'.'+filetype, { type: 'image/*' });
                       setFile(file);
                     } catch (error) {
                       console.error('Error fetching and setting image file:', error);

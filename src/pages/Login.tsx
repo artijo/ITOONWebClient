@@ -3,7 +3,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import config from "../config";
+import { useLocation } from "react-router-dom";
 export default function Login() {
+    const location = useLocation();
+    const { search } = location;
+    console.log(search);
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -22,7 +26,7 @@ export default function Login() {
     }
     useEffect(() => {
         if (cookies.token) {
-            document.location.href = '/';
+            document.location.href = search.replace('?', '').split('=')[1];
         }
     }, [cookies.token])
 

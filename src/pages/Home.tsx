@@ -3,13 +3,15 @@ import { useEffect } from "react"
 import { useCookies } from "react-cookie"
 import axios from "axios"
 import config from "../config"
-
+import { useLocation } from "react-router-dom"
 
 export default function Home() {
+    const location = useLocation();
+    const { pathname } = location;
     const [cookies] = useCookies(['token']);
     useEffect(() => {
         if (!cookies.token) {
-            document.location.href = '/login';
+            document.location.href = '/login?redirect=' + pathname;
         }
         axios.post(`${config.BASE_URL}/authcheckweb`, {}, {
             headers: {
@@ -19,7 +21,7 @@ export default function Home() {
             console.log(res);
         }).catch(err => {
             console.log(err);
-            document.location.href = '/login';
+            document.location.href = '/login?redirect=' + pathname;
         })
     } , [cookies.token])
     return (

@@ -5,9 +5,11 @@ import { useState, useEffect } from "react";
 import Layout from "../Layout";
 import { loadStripe } from '@stripe/stripe-js';
 import Button from "../components/Button";
-
+import { useLocation } from "react-router-dom";
 
 export default function Cointransaction() {
+    const location = useLocation();
+    const { pathname } = location;
     const initStripe = async () => {
         const stripe = await loadStripe('pk_test_51OkK2WDulwlvkdoosW76OZEezA58xYfIm7aVPQvQvajiwG3rcVUg3YXKlRlivhv6FjDJVKpfDx2OnRtFSwKRqDpq00qCjUa9eG');
         return stripe;
@@ -49,7 +51,7 @@ export default function Cointransaction() {
             setStripe(res);
         })
         if (!cookies.token) {
-            document.location.href = '/login';
+            document.location.href = '/login?redirect=' + pathname;
         }
         axios.post(`${config.BASE_URL}/authcheckweb`, {}, {
             headers: {
@@ -59,9 +61,7 @@ export default function Cointransaction() {
             console.log(res);
         }).catch(err => {
             console.log(err);
-            if(err.response.status === 401) {
-                document.location.href = '/login';
-            }
+            document.location.href = '/login?redirect=' + pathname;
         })
 
     }, [cookies.token])

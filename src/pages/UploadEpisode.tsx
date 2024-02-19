@@ -3,8 +3,10 @@ import { useState, useEffect } from "react"
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import config from "../config";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 export default function UploadEpisode() {
+    const location = useLocation();
+    const { pathname } = location;
     const [thumbnail, setThumbnaiil] = useState<File | undefined>();
     const [title, setTitle] = useState<string>('');
     const [images, setImages] = useState<FileList | null>();
@@ -89,7 +91,7 @@ export default function UploadEpisode() {
     }
     useEffect(() => {
         if (!cookies.token) {
-            document.location.href = '/login';
+            document.location.href = '/login?redirect='+pathname;
         }
         axios.post(`${config.BASE_URL}/authcheckcreator`, {}, {
             headers: {
@@ -99,7 +101,7 @@ export default function UploadEpisode() {
             console.log(res);
         }).catch(err => {
             console.log(err);
-            document.location.href = '/login';
+            document.location.href = '/login?redirect=' + pathname;
         })
         axios.get(`${config.BASE_URL}/getlastep/${id}`).then(res => {
             if(res.data == null) {

@@ -3,9 +3,11 @@ import { useState, useEffect } from "react"
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import config from "../config";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 export default function UploadCartoon() {
+    const location = useLocation();
+    const { pathname } = location;
     const [file, setFile] = useState<File | undefined>();
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
@@ -75,7 +77,7 @@ export default function UploadCartoon() {
 
     useEffect(() => {
         if (!cookies.token) {
-            document.location.href = '/login';
+            document.location.href = '/login?redirect='+pathname;
         }
         axios.post(`${config.BASE_URL}/authcheckcreator`, {}, {
             headers: {
@@ -85,9 +87,7 @@ export default function UploadCartoon() {
             console.log(res);
         }).catch(err => {
             console.log(err);
-            if(err.response.status === 401) {
-                document.location.href = '/error';
-            }
+            document.location.href = '/login?redirect=' + pathname;
         })
 
         initGenres();

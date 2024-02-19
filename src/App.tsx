@@ -15,6 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/upload/cartoon" element={<UploadCartoon />} />
+        <Route path='/edit/cartoon/:id' element={<UploadCartoon />} />
         <Route path="/upload/episode/:id" element={<UploadEpisode />} />
         <Route path="/error" element={<Error/>}/>
         <Route path="/profile" element={<Profile/>} />

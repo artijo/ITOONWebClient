@@ -77,7 +77,7 @@ export default function UploadEpisode() {
         if (!cookies.token) {
             document.location.href = '/login';
         }
-        axios.post(`${config.BASE_URL}/authcheckweb`, {}, {
+        axios.post(`${config.BASE_URL}/authcheckcreator`, {}, {
             headers: {
                 'Authorization': 'Bearer ' + cookies.token
             }

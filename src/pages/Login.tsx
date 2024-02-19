@@ -18,14 +18,22 @@ export default function Login() {
         }).then(res => {
             console.log(res);
             setCookie('token', res.data.token, { maxAge: 3600*24*7 });
-            document.location.href = search.replace('?', '').split('=')[1];;
+            if(search.includes('redirect')){
+                document.location.href = search.replace('?', '').split('=')[1];;
+            }else{
+                document.location.href = '/';
+            }
         }).catch(err => {
             console.log(err);
         })
     }
     useEffect(() => {
         if (cookies.token) {
-            document.location.href = search.replace('?', '').split('=')[1];
+            if(search.includes('redirect')){
+                document.location.href = search.replace('?', '').split('=')[1];;
+            }else{
+                document.location.href = '/';
+            }
         }
     }, [cookies.token])
 

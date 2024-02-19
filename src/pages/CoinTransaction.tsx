@@ -65,16 +65,22 @@ export default function Cointransaction() {
 
     }, [cookies.token])
     return (
-    <Layout title="Coin Transaction">
+    <Layout title="เติมเหรียญ">
         <div>
-            <h1>Coin Transaction</h1>
+            <h1 className="text-3xl text-center font-bold mt-2">เติมเหรียญ</h1>
+            <p className="text-center">เติมเหรียญเพื่อใช้ในการสนับสนุนผู้สร้างสรรค์ผลงาน</p>
+            <p className="text-center">1 บาท = 1 เหรียญ</p>
+            <p className="text-center">เติมเหรียญเริ่มต้นที่ 20 เหรียญ</p>
+            <p className="text-center">เหรียญที่เติมจะไม่สามารถถอนออกมาได้</p>
+            <p className="text-center">เหรียญที่เติมจะไม่สามารถโอนให้ผู้อื่นได้</p>
+            <p className="text-center">รองรับการชำระผ่าน เดบิต/เครดิต และ พร้อมเพย์</p>
             <form>
-                <div>
-                    <label htmlFor="amount">จำนวน Coin</label>
-                    <input type="number" id="amount" onChange={(e)=>setCoin(Number(e.target.value))} />
+                <div className="md-2">
+                    <label htmlFor="amount" className="block text-lg font-medium leading-6 text-gray-900">จำนวน Coin</label>
+                    <input type="number" min={20} className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" id="amount" onChange={(e)=>setCoin(Number(e.target.value))} />
                 </div>
                 <div>
-                    <button onClick={(e)=>handdleSubmit(e)}>Submit</button>
+                    <button className="bg-red text-white p-2 rounded-md block mx-auto mt-5" onClick={(e)=>handdleSubmit(e)}>เติมเหรียญ</button>
                 </div>
             </form>
         </div>

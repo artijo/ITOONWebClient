@@ -10,7 +10,6 @@ export default function UploadCartoon() {
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [type, setType] = useState<string>('');
-    const [episode, setEpisode] = useState<number>(0);
     const [cookies] = useCookies(['token']);
 
     const { id } = useParams();
@@ -41,7 +40,6 @@ export default function UploadCartoon() {
         formData.append('name', title);
         formData.append('description', description);
         formData.append('type', type);
-        formData.append('episode', episode.toString());
         if(id) {
             axios.put(`${config.BASE_URL}/cartoon/${id}`, formData, {
                 headers: {
@@ -102,7 +100,6 @@ export default function UploadCartoon() {
                 setTitle(res.data.name);
                 setDescription(res.data.description);
                 setType(res.data.genreId.toString());
-                setEpisode(res.data.totalEpisodes);
                 const imageUrl = config.BASE_URL + '/' + res.data.thumbnail;
                 const filetype = imageUrl.split('.').pop();
                 const fetchImageAndSetFile = async () => {
@@ -144,10 +141,6 @@ export default function UploadCartoon() {
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">เรื่องย่อ</label>
                         <textarea className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value={description} onChange={(e)=>setDescription(e.target.value)}></textarea>
-                    </div>
-                    <div className="mb-2">
-                        <label className="block text-lg font-medium leading-6 text-gray-900">จำนวนตอน</label>
-                        <input type="number" className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value={episode} onChange={(e)=>setEpisode(Number(e.target.value))}/>
                     </div>
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">ประเภท</label>

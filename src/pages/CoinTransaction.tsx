@@ -4,6 +4,7 @@ import config from "../config";
 import { useState, useEffect } from "react";
 import Layout from "../Layout";
 import { loadStripe } from '@stripe/stripe-js';
+import Button from "../components/Button";
 
 
 export default function Cointransaction() {
@@ -80,7 +81,7 @@ export default function Cointransaction() {
                     <input type="number" min={20} className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" id="amount" onChange={(e)=>setCoin(Number(e.target.value))} />
                 </div>
                 <div>
-                    <button className="bg-red text-white p-2 rounded-md block mx-auto mt-5" onClick={(e)=>handdleSubmit(e)}>เติมเหรียญ</button>
+                    <Button onClick={(e:any)=>handdleSubmit(e)}>เติมเหรียญ</Button>
                 </div>
             </form>
         </div>

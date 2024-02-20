@@ -18,7 +18,6 @@ export default function Cointransaction() {
     const [coin, setCoin] = useState<number>(0);
     const [stripe, setStripe] = useState<any>(null);
 
-    console.log(cookies.token);
 
     const handdleSubmit = (e: any) => {
         e.preventDefault();

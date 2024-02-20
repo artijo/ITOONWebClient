@@ -3,7 +3,7 @@ import { useEffect } from "react"
 import { useCookies } from "react-cookie"
 import axios from "axios"
 import config from "../config"
-import { useLocation } from "react-router-dom"
+import { useLocation, Link } from "react-router-dom"
 
 export default function Home() {
     const location = useLocation();
@@ -28,10 +28,10 @@ export default function Home() {
         <Layout title="หน้าแรก">
             <div className="mt-5">
                 <h1 className="text-2xl font-bold text-gray-900">หน้าแรก</h1>
-                <p>สำหรับ Crator</p>
-                <button onClick={()=>document.location.href = '/upload/cartoon'} className="bg-red text-white mt-5 p-2 block mx-auto rounded-md">อัปโหลดการ์ตูน</button>
-                <p>สำหรับ User</p>
-                <button onClick={()=>document.location.href = '/coin-transaction'} className="bg-red text-white mt-5 p-2 block mx-auto rounded-md">เติมเหรียญ</button>
+                <p className="my-5">สำหรับ Crator</p>
+                <Link to="/upload/cartoon" className="bg-red text-white mt-5 p-2 mx-auto rounded-md">สร้างคอร์ส</Link>
+                <p className="my-5">สำหรับ User</p>
+                <Link to="/coin-transaction" className="bg-red text-white mt-5 p-2 mx-auto rounded-md">เติมเหรียญ</Link>
             </div>
         </Layout>
     )

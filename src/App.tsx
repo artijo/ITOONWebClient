@@ -7,6 +7,7 @@ import Error from './pages/Error'
 import Profile from './pages/Profile'
 import Coi from './pages/CoinTransaction'
 import Success from './pages/Success'
+import ApproveCreator from './pages/AppoveCreator'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/coin-transaction" element={<Coi/>} />
         <Route path='/coin-transaction/success' element={<Success message="ชำระเงินเรียบร้อยโปรดกลับไปที่แอปและเช็คเหรียญของคุณ"/>} />
         <Route path='/coin-transaction/cancel' element={<Success message="การชำระเงินถูกยกเลิก"/>} /> 
+        <Route path='/admin/creator' element={<ApproveCreator/>} />
       </Routes>
   )
 }

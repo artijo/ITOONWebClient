@@ -12,6 +12,8 @@ export default function UploadCartoon() {
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [type, setType] = useState<string>('');
+    const [paid, setPaid] = useState<boolean>(false);
+    const [price, setPrice] = useState<number>(0);
     const [cookies] = useCookies(['token']);
 
     const { id } = useParams();
@@ -42,6 +44,8 @@ export default function UploadCartoon() {
         formData.append('name', title);
         formData.append('description', description);
         formData.append('type', type);
+        formData.append('paid', paid.toString());
+        formData.append('price', price.toString());
         if(id) {
             axios.put(`${config.BASE_URL}/cartoon/${id}`, formData, {
                 headers: {
@@ -150,6 +154,12 @@ export default function UploadCartoon() {
         <option key={index} value={genre.id}>{genre.name}</option>
     ))}
 </select>
+                    </div>
+                    <div className="mb-2">
+                        <label className="block text-lg font-medium leading-6 text-gray-900">ตั้งราคา</label>
+                        <input type="radio" name="paid" value="false" checked={!paid} onChange={(e)=>setPaid(false)}/> ฟรี
+                        <input type="radio" name="paid" value="true" checked={paid} onChange={(e)=>setPaid(true)}/> จ่ายเงิน
+                        {paid && <input type="number" className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value={price} onChange={(e)=>setPrice(parseInt(e.target.value))}/>}
                     </div>
                     <div>
                         <button className="bg-red text-white p-2 rounded-md block mx-auto mt-5" type="submit" onClick={(e) => handleSubmit(e)}>อัปโหลด</button>

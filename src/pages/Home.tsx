@@ -29,7 +29,7 @@ export default function Home() {
             <div className="mt-5">
                 <h1 className="text-2xl font-bold text-gray-900">หน้าแรก</h1>
                 <p className="my-5">สำหรับ Crator</p>
-                <Link to="/upload/cartoon" className="bg-red text-white mt-5 p-2 mx-auto rounded-md">สร้างคอร์ส</Link>
+                <Link to="/upload/cartoon" className="bg-red text-white mt-5 p-2 mx-auto rounded-md">สร้างการ์ตูนใหม่</Link>
                 <p className="my-5">สำหรับ User</p>
                 <Link to="/coin-transaction" className="bg-red text-white mt-5 p-2 mx-auto rounded-md">เติมเหรียญ</Link>
             </div>

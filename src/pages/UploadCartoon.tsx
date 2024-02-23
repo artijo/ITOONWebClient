@@ -91,7 +91,9 @@ export default function UploadCartoon() {
             console.log(res);
         }).catch(err => {
             console.log(err);
-            document.location.href = '/login?redirect=' + pathname;
+            if(err.response.status === 401){
+                document.location.href = '/error';
+            }else document.location.href = '/login?redirect='+pathname;
         })
 
         initGenres();

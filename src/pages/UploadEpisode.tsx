@@ -101,7 +101,10 @@ export default function UploadEpisode() {
             console.log(res);
         }).catch(err => {
             console.log(err);
-            document.location.href = '/login?redirect=' + pathname;
+            if(err.response.status === 401){
+                document.location.href = '/error';
+            }else document.location.href = '/login?redirect=' + pathname;
+            
         })
         axios.get(`${config.BASE_URL}/getlastep/${id}`).then(res => {
             if(res.data == null) {

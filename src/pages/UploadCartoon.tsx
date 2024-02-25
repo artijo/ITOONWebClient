@@ -4,6 +4,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import config from "../config";
 import { useParams, useLocation } from "react-router-dom";
+import Loading from "../components/Loading";
 
 export default function UploadCartoon() {
     const location = useLocation();
@@ -15,6 +16,7 @@ export default function UploadCartoon() {
     const [paid, setPaid] = useState<boolean>(false);
     const [price, setPrice] = useState<number>(0);
     const [cookies] = useCookies(['token']);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const { id } = useParams();
 
@@ -38,6 +40,7 @@ export default function UploadCartoon() {
         }
     }
     const handleSubmit = (e: any) => {
+        setLoading(true);
         e.preventDefault();
         const formData = new FormData();
         formData.append('thumbnail', file as Blob);
@@ -164,7 +167,11 @@ export default function UploadCartoon() {
                         {paid && <input type="number" className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value={price} onChange={(e)=>setPrice(parseInt(e.target.value))}/>}
                     </div>
                     <div>
-                        <button className="bg-red text-white p-2 rounded-md block mx-auto mt-5" type="submit" onClick={(e) => handleSubmit(e)}>อัปโหลด</button>
+                        {loading ? (
+                            <Loading type="spin" color="#000000" />
+                        ) :(
+                            <button className="bg-red text-white p-2 rounded-md block mx-auto mt-5" type="submit" onClick={(e) => handleSubmit(e)}>อัปโหลด</button>
+                        )}
                     </div>
                 </form>
             </div>

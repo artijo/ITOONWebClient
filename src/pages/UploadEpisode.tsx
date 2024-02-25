@@ -4,6 +4,8 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import config from "../config";
 import { useParams, useLocation } from "react-router-dom";
+import Loading from "../components/Loading";
+
 export default function UploadEpisode() {
     const location = useLocation();
     const { pathname } = location;
@@ -13,6 +15,7 @@ export default function UploadEpisode() {
     const [cookies] = useCookies(['token']);
     const { id, episode } = useParams();
     const [episodes, setEpisodes] = useState<Number>();
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handlethumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -49,6 +52,7 @@ export default function UploadEpisode() {
     }
 
     const haddlesubmit = (e: any) => {
+        setLoading(true);
         e.preventDefault();
         const formData = new FormData();
         formData.append('cover', thumbnail as Blob);
@@ -196,7 +200,11 @@ export default function UploadEpisode() {
                     </div>
                     }
                     <div className="mb-2">
+                        {loading ?(
+                            <Loading type="spin" color="#000000" />
+                        ):(
                         <button onClick={haddlesubmit} className="bg-red text-white mt-5 p-2 block mx-auto rounded-md">อัปโหลดตอน</button>
+                        ) }
                     </div>
                 </form>
             </div>

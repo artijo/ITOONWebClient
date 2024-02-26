@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import config from "../config";
 import { useParams, useLocation } from "react-router-dom";
 import Loading from "../components/Loading";
+import Compressor from 'compressorjs';
 
 export default function UploadCartoon() {
     const location = useLocation();
@@ -39,11 +40,30 @@ export default function UploadCartoon() {
             setFile(e.target.files[0]);
         }
     }
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
         setLoading(true);
         e.preventDefault();
         const formData = new FormData();
-        formData.append('thumbnail', file as Blob);
+        if (file) {
+            // try {
+            //     const result = await new Promise((resolve, reject) => {
+            //         new Compressor(file, {
+            //             quality: 0.4,
+            //             success(result) {
+            //                 resolve(result);
+            //             },
+            //             error(err) {
+            //                 reject(err.message);
+            //             },
+            //         });
+            //     });
+            //     formData.append('thumbnail', result as Blob);
+            // } catch (error) {
+            //     console.log(error);
+            //     // Handle error if needed
+            // }
+            formData.append('thumbnail', file as Blob);
+        }
         formData.append('name', title);
         formData.append('description', description);
         formData.append('type', type);

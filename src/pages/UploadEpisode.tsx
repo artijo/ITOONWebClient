@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import config from "../config";
 import { useParams, useLocation } from "react-router-dom";
 import Loading from "../components/Loading";
+import Compressor from 'compressorjs';
 
 export default function UploadEpisode() {
     const location = useLocation();
@@ -51,16 +52,47 @@ export default function UploadEpisode() {
         }
     }
 
-    const haddlesubmit = (e: any) => {
+    const haddlesubmit = async (e: any) => {
         setLoading(true);
         e.preventDefault();
         const formData = new FormData();
-        formData.append('cover', thumbnail as Blob);
+        if (thumbnail) {
+            // const result = await new Promise((resolve, reject) => {
+            //     new Compressor(thumbnail, {
+            //         quality: 0.4,
+            //         success(result) {
+            //             resolve(result);
+            //         },
+            //         error(err) {
+            //             reject(err.message);
+            //         },
+            //     });
+            // });
+            // formData.append('cover', result as Blob);
+            formData.append('cover', thumbnail as Blob);
+        }
         formData.append('title', title);
         formData.append('episode', episodes?.toString() ?? '1');
         formData.append('cartoonid', id as string);
         if (images) {
             for (let i = 0; i < images.length; i++) {
+                // try {
+                //     const result = await new Promise((resolve, reject) => {
+                //         new Compressor(images[i], {
+                //             quality: 0.4,
+                //             success(result) {
+                //                 resolve(result);
+                //             },
+                //             error(err) {
+                //                 reject(err.message);
+                //             },
+                //         });
+                //     });
+                //     formData.append('images', result as Blob);
+                // } catch (error) {
+                //     console.log(error);
+                // }
+              
                 formData.append('images', images[i]);
             }
         }

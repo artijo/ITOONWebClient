@@ -25,8 +25,41 @@ export default function Cartoon() {
     const { id } = useParams();
     const [cartoon, setCartoon] = useState({} as Cartoon);
     const [episodes, setEpisodes] = useState<episode[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const [cookies] = useCookies(['token']);
+
+    const handledeleteCartoon = (e:any,cartoonid:any) => {
+        if(!window.confirm('คุณต้องการลบการ์ตูนนี้ใช่หรือไม่?')) return;
+        setLoading(true);
+        e.preventDefault();
+        axios.delete(`${config.BASE_URL}/deletecartoon/${cartoonid}`, {
+            headers: {
+                'Authorization': 'Bearer ' + cookies.token
+            }
+        }).then(res => {
+            setLoading(false);
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
+    const handledeleteEpisode = (e:any,episodeid:any) => {
+        if(!window.confirm('คุณต้องการลบตอนนี้ใช่หรือไม่?')) return;
+        setLoading(true);
+        e.preventDefault();
+        axios.delete(`${config.BASE_URL}/deleteEpisode/${episodeid}`, {
+            headers: {
+                'Authorization': 'Bearer ' + cookies.token
+            }
+        }).then(res => {
+            setLoading(false);
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        })
+    }
 
     useEffect(() => {
         document.title = "การ์ตูน";
@@ -58,7 +91,7 @@ export default function Cartoon() {
                 document.location.href = '/error';
             } else document.location.href = '/login?redirect=' + document.location.pathname;
         })
-    }, [])
+    }, [id,cookies.token,loading])
     return (
         <Layout title="การ์ตูน">
             <div className="mt-5">
@@ -69,7 +102,7 @@ export default function Cartoon() {
                         <p>{cartoon.description}</p>
                         <p>{cartoon.releseDate}</p>
                         <Link to={`/edit/cartoon/${id}`} className="bg-red text-white mt-5 p-2 mx-auto rounded-md">แก้ไขการ์ตูน</Link>
-                        <button className="bg-red text-white mt-5 ml-5 p-2 mx-auto rounded-md">ลบการ์ตูน</button>
+                        <button onClick={(e)=>handledeleteCartoon(e,cartoon.id)} className="bg-red text-white mt-5 ml-5 p-2 mx-auto rounded-md">ลบการ์ตูน</button>
                     </div>
                 </div>
                 <div className="grid grid-rows-2 gap-4">
@@ -83,7 +116,7 @@ export default function Cartoon() {
                                 </div>
                                 <div>
                                     <Link to={`/edit/episode/${episode.id}`} className="bg-red text-white mt-5 p-2 mx-auto rounded-md">แก้ไขตอน</Link>
-                                    <button className="bg-red text-white mt-5 ml-5 p-2 mx-auto rounded-md">ลบตอน</button>
+                                    <button onClick={(e)=>handledeleteEpisode(e,episode.id)} className="bg-red text-white mt-5 ml-5 p-2 mx-auto rounded-md">ลบตอน</button>
                                 </div>
                             </div>
                         )

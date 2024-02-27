@@ -152,7 +152,7 @@ export default function UploadEpisode() {
         }).catch(err => {
             console.log(err);
         })
-    }, [cookies.token])
+    }, [id,cookies.token])
 
     useEffect(() => {
         if (episode) {

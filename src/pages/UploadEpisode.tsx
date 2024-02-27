@@ -17,6 +17,7 @@ export default function UploadEpisode() {
     const { id, episode } = useParams();
     const [episodes, setEpisodes] = useState<Number>();
     const [loading, setLoading] = useState<boolean>(false);
+    const [loadingimage, setLoadingimage] = useState<boolean>(false);
 
     const handlethumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -129,29 +130,31 @@ export default function UploadEpisode() {
         if (!cookies.token) {
             document.location.href = '/login?redirect='+pathname;
         }
-        axios.post(`${config.BASE_URL}/authcheckcreator`, {}, {
-            headers: {
-                'Authorization': 'Bearer ' + cookies.token
-            }
-        }).then(res => {
-            console.log(res);
-        }).catch(err => {
-            console.log(err);
-            if(err.response.status === 401){
-                document.location.href = '/error';
-            }else document.location.href = '/login?redirect=' + pathname;
-            
-        })
-        axios.get(`${config.BASE_URL}/getlastep/${id}`).then(res => {
-            if(res.data == null) {
-                setEpisodes(1);
-                return;
-            }
-            setEpisodes(res.data.episodeNumber + 1);
-            
-        }).catch(err => {
-            console.log(err);
-        })
+        if(!episode){
+            axios.post(`${config.BASE_URL}/authcheckcreator`, {}, {
+                headers: {
+                    'Authorization': 'Bearer ' + cookies.token
+                }
+            }).then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.log(err);
+                if(err.response.status === 401){
+                    document.location.href = '/error';
+                }else document.location.href = '/login?redirect=' + pathname;
+                
+            })
+            axios.get(`${config.BASE_URL}/getlastep/${id}`).then(res => {
+                if(res.data == null) {
+                    setEpisodes(1);
+                    return;
+                }
+                setEpisodes(res.data.episodeNumber + 1);
+                
+            }).catch(err => {
+                console.log(err);
+            })
+        }
     }, [id,cookies.token])
 
     useEffect(() => {
@@ -167,6 +170,7 @@ export default function UploadEpisode() {
                     setThumbnaiil(file);
                 });
                 const fetchImagesAndSetFilelist = async () => {
+                    setLoadingimage(true);
                     const res = await axios.get(`${config.BASE_URL}/getImageEp/${episode}`);
                     const images = res.data;
                     const filelist = new DataTransfer();
@@ -179,6 +183,7 @@ export default function UploadEpisode() {
                         filelist.items.add(file);
                     }
                     setImages(filelist.files);
+                    setLoadingimage(false);
                 }
                 fetchImagesAndSetFilelist();
             }).catch(err => {
@@ -215,6 +220,15 @@ export default function UploadEpisode() {
                             <button className="btn">อัปโหลดรูป</button>
                             <input onChange={handdleimages} type="file" name="images" accept="image/*" multiple/>
                         </div>
+                    )}
+                    {loadingimage ? (
+                        
+                        <>
+                        <p>กำหลังโหลดรูปภาพ</p>
+                        <Loading type="spin" color="#000000" />
+                        </>
+                    ) : (
+                        <div></div>
                     )}
                     {images && <div className="grid grid-cols-2">
                         {Array.from(images).map((image, index) => {

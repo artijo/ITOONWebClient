@@ -43,9 +43,9 @@ export default function ManageCartoon() {
     return (
         <Layout title="จัดการการ์ตูน">
             <div className="mt-5">
-                <h1 className="text-2xl font-bold text-gray-900">การ์ตูนของคุณ</h1>
-                {/* showlist with grid row */}
-                <div className="grid grid-cols-3 gap-4">
+                <h1 className="text-2xl font-bold text-gray-900 mb-5">การ์ตูนของคุณ</h1>
+                <Link to="/upload/cartoon" className="bg-red text-white mt-5 p-2 mx-auto rounded-md">สร้างการ์ตูนใหม่</Link>
+                <div className="grid grid-cols-3 gap-4 mt-5">
                     {cartoons.map((cartoon, index) => {
                         return (
                             <div key={index} className="bg-gray-100 p-2">

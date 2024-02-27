@@ -105,7 +105,10 @@ export default function Cartoon() {
                         <button onClick={(e)=>handledeleteCartoon(e,cartoon.id)} className="bg-red text-white mt-5 ml-5 p-2 mx-auto rounded-md">ลบการ์ตูน</button>
                     </div>
                 </div>
-                <div className="grid grid-rows-2 gap-4">
+
+                <h1 className="text-2xl font-bold text-gray-900 text-center">ตอน</h1>
+                <Link to={`/upload/episode/${id}`} className="bg-red text-white mt-5 p-2 mx-auto rounded-md">เพิ่มตอน</Link>
+                <div className="grid grid-rows-2 gap-4 mt-5">
                     {episodes.map((episode, index) => {
                         return (
                             <div key={index} className="flex justify-between items-center p-2">

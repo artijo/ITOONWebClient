@@ -39,6 +39,7 @@ export default function Cartoon() {
             }
         }).then(res => {
             setLoading(false);
+            document.location.href = '/creator/cartoon';
             console.log(res);
         }).catch(err => {
             console.log(err);

@@ -1,5 +1,5 @@
 import Layout from "../Layout"
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import config from "../config";
@@ -9,7 +9,7 @@ export default function Login() {
     const { search } = location;
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const [, setCookie] = useCookies(['token']);
     const handleSubmit = (e: any) => {
         e.preventDefault();
         axios.post(`${config.BASE_URL}/loginweb`, {

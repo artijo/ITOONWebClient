@@ -70,7 +70,7 @@ export default function Cartoon() {
             headers: {
                 'Authorization': 'Bearer ' + cookies.token
             }
-        }).then(res => {
+        }).then(() => {
             axios.get(`${config.BASE_URL}/Cartoon/${id}`, {}
             ).then(res => {
                 // console.log(res.data);

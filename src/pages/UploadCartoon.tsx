@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import config from "../config";
 import { useParams, useLocation } from "react-router-dom";
 import Loading from "../components/Loading";
-import Compressor from 'compressorjs';
+// import Compressor from 'compressorjs';
 
 export default function UploadCartoon() {
     const location = useLocation();
@@ -182,8 +182,8 @@ export default function UploadCartoon() {
                     </div>
                     <div className="mb-2">
                         <label className="block text-lg font-medium leading-6 text-gray-900">ตั้งราคา</label>
-                        <input type="radio" name="paid" value="false" checked={!paid} onChange={(e)=>setPaid(false)}/> ฟรี
-                        <input type="radio" name="paid" value="true" checked={paid} onChange={(e)=>setPaid(true)}/> จ่ายเงิน
+                        <input type="radio" name="paid" value="false" checked={!paid} onChange={()=>setPaid(false)}/> ฟรี
+                        <input type="radio" name="paid" value="true" checked={paid} onChange={()=>setPaid(true)}/> จ่ายเงิน
                         {paid && <input type="number" className="block w-full rounded-md border-0 py-1.5 text-gray-900 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value={price} onChange={(e)=>setPrice(parseInt(e.target.value))}/>}
                     </div>
                     <div>

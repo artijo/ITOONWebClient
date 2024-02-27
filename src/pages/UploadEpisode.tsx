@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import config from "../config";
 import { useParams, useLocation } from "react-router-dom";
 import Loading from "../components/Loading";
-import Compressor from 'compressorjs';
+// import Compressor from 'compressorjs';
 
 export default function UploadEpisode() {
     const location = useLocation();

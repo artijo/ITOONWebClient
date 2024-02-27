@@ -9,6 +9,8 @@ import Coi from './pages/CoinTransaction'
 import Success from './pages/Success'
 import ApproveCreator from './pages/AppoveCreator'
 import Logout from './pages/Logout'
+import ManageCartoon from './pages/ManageCartoon'
+import Cartoon from './pages/Cartoon'
 
 function App() {
 
@@ -27,6 +29,8 @@ function App() {
         <Route path='/coin-transaction/success' element={<Success message="ชำระเงินเรียบร้อยโปรดกลับไปที่แอปและเช็คเหรียญของคุณ"/>} />
         <Route path='/coin-transaction/cancel' element={<Success message="การชำระเงินถูกยกเลิก"/>} /> 
         <Route path='/admin/creator' element={<ApproveCreator/>} />
+        <Route path='/creator/cartoon' element={<ManageCartoon/>} />
+        <Route path='/creator/cartoon/:id' element={<Cartoon/>} />
         <Route path='/logout' element={<Logout/>} />
       </Routes>
   )

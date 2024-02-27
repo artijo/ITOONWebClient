@@ -27,15 +27,15 @@ export default function Login() {
             console.log(err);
         })
     }
-    useEffect(() => {
-        if (cookies.token) {
-            if(search.includes('redirect')){
-                document.location.href = search.replace('?', '').split('=')[1];;
-            }else{
-                document.location.href = '/';
-            }
-        }
-    }, [cookies.token])
+    // useEffect(() => {
+    //     if (cookies.token) {
+    //         if(search.includes('redirect')){
+    //             document.location.href = search.replace('?', '').split('=')[1];;
+    //         }else{
+    //             document.location.href = '/';
+    //         }
+    //     }
+    // }, [cookies.token])
 
     return (
         <Layout title="เข้าสู่ระบบสำหรับ Creator">
